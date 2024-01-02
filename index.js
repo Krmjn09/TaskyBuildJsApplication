@@ -69,9 +69,45 @@ ${title}</h4>
 </div>
 <div class="card-footer">
 <button type="button" class="btn btn-outline-primary float right data-bs-toggle="modal" data-bs-target="#showTask"">
+Open Task
 </button>
 </div>
 </div>
 </div>
 </div>
 `;
+
+
+
+
+// MODAL body on >> click of open task
+
+const htmlModalContent = ({ id, title, description, url}) =>  {
+    const date =new Date(parseInt(id))
+   return`
+   <div id=${id}>
+    ${
+       url &&
+       `<img width='100%' src=${url} alt='Card Image' class="img-fluid place__holder__image mb-3"/>`
+    }
+    <strong class="text-muted text-sm">Created on: ${date.toDateString()}</strong>
+    <h2 class="my-3">
+    ${title}
+    </h2>
+    <p class="text-muted">${description}</p>
+    </div>
+   `;
+};
+
+
+const updateLocalStorage = () => {
+    localStorage.setItem(
+        "tasky",
+        JSON.stringify({
+            tasks: state.taskList,
+        })
+    );
+}
+
+
+//load Initial Data
