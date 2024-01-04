@@ -27,6 +27,9 @@
     // ]
 // }
 
+
+
+//backup storage
 const state = {
     taskList: [],
 };
@@ -99,15 +102,48 @@ const htmlModalContent = ({ id, title, description, url}) =>  {
    `;
 };
 
-
+// where we convert json> str (i.e. for local storage)
 const updateLocalStorage = () => {
     localStorage.setItem(
-        "tasky",
+        "task",
         JSON.stringify({
             tasks: state.taskList,
         })
     );
 }
 
-
+// where we convert str > json (i.e. for rendering the carrds on the screen)
 //load Initial Data
+
+const LoadInitialData = () => {
+    const localStorageCopy = JSON.parse(localStorage.tasks);
+
+    if(localStorageCopy) state.taskList = localStorageCopy.tasks;
+
+    state.taskList.map((cardDate)=> {
+        taskContents.innerAdjacentHTML("beforeend",htmlTaskContent(cardDate));
+    });
+};
+//when we update or edit we need to save
+
+// from html to js
+
+const handleSubmit = (event) => {
+     const id = `${Date.now()}`;
+     const input = {
+        url: document.getElementById("ImageUrl").value,
+        title: document.getElementById("taskTitle").value,
+        taskDescription:  document.getElementById("taskDescription").value,
+        tags: document.getElementById("tags").value,
+     };
+
+
+     // for displaying all the things on the screen i.e. ui
+taskContents.innerAdjacentHTML("beforeend",htmlTaskContent({...input,id}));
+
+
+state.taskList.push({...input,id});// this is for backup storage
+
+updateLocalStorage();//for local storage i.e. browser
+
+};
