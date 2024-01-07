@@ -61,13 +61,14 @@ const htmlTaskContent = ({ id, title, description, type, url }) => `
       </div>
       <div class='card-body'>
           ${
-            url &&
-            `<img width='100%' src=${url} alt='Card Image' class='card-img-top md-3 rounded-lg' />`
+            url 
+            ?`<img width='100%' src=${url} alt='Card Image' class='card-img-top md-3 rounded-lg' />`
+            :`<img width='100%' src="https://www.pngkey.com/png/detail/233-2332677_image-500580-placeholder-transparent.png" alt='Card Image' class='card-img-top md-3 rounded-lg' />`
           }
           <h4 class='card-title task__card__title'>${title}</h4>
           <p class='description trim-3-lines text-muted'>${description}</p>
           <div class='tags text-white d-flex flex-wrap'>
-            <span> class='badge bg-primary m-1'${type}</span>
+            <span class='badge bg-primary m-1'>${type}</span>
           </div>
       </div>
       <div class='card-footer'>
@@ -83,9 +84,9 @@ const htmlModalContent = ({ id, title, description, url }) => {
   return `
   <div id=${id}>
      ${
-       url &&
-       //  `<img width='100%' src=${url} alt='Card Image' class='img-fluid place__holder__image mb-3' />`
-       `<img width='100%' src=${url} alt='Card Image' class='img-fluid place__holder__image mb-3' />`
+      url 
+            ?`<img width='100%' src=${url} alt='Card Image' class='card-img-top md-3 rounded-lg' />`
+            :`<img width='100%' src="https://www.pngkey.com/png/detail/233-2332677_image-500580-placeholder-transparent.png" alt='Card Image' class='card-img-top md-3 rounded-lg' />`
      }
      <strong class='text-muted text-sm'>Created on: ${date.toDateString()}</strong>
      <h2 class='my-3'>${title}</h2>
