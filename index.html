@@ -19,7 +19,7 @@
 
     <title>JS build Projec</title>
   </head>
-  <body>
+  <body onload="LoadInitialData()">
     <!-- button on small screen size -->
     <div class="add__new__btn__mobile__only d-md-none">
       <button
@@ -52,7 +52,7 @@
             ></button>
           </div>
           <div class="modal-body">
-            <form>
+            <form onsubmit="return false">
               <!-- image -->
               <div class="mb-3">
                 <label for="imageUrl" class="form-label">Image URL</label>
@@ -113,7 +113,13 @@
             >
               Close
             </button>
-            <button type="button" class="btn btn-primary">Save changes</button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              onclick="handleSubmit()"
+            >
+              Save changes
+            </button>
           </div>
         </div>
       </div>
