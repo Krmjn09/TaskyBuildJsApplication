@@ -55,15 +55,17 @@ const htmlTaskContent = ({ id, title, description, type, url }) => `
           <button type='button' class='btn btn-outline-primary mr-1.5' name=${id}>
               <i class='fas fa-pencil-alt name=${id}'></i>
           </button>
-           <button type='button' class='btn btn-outline-danger mr-1.5' name=${id}>
-              <i class='fas fa-trash-alt name=${id}'></i>
+           <button type='button' class='btn btn-outline-danger mr-1.5' name=${id} onclick="deleteTask.apply(this, arguments)">
+              <i class='fas fa-trash-alt name=${id}' ></i>
           </button>
       </div>
       <div class='card-body'>
           ${
-            url 
-            ?`<img width='100%' src=${url} alt='Card Image' class='card-img-top md-3 rounded-lg' />`
-            :`<img width='100%' src="https://www.pngkey.com/png/detail/233-2332677_image-500580-placeholder-transparent.png" alt='Card Image' class='card-img-top md-3 rounded-lg' />`
+            // url &&
+            // `<img width='100%' src=${url} alt='Card Image' class='card-img-top md-3 rounded-lg' />`
+            url
+              ? `<img width='100%' src=${url} alt='Card Image' class='card-img-top md-3 rounded-lg' />`
+              : `<img width='100%' src="https://tse1.mm.bing.net/th?id=OIP.F00dCf4bXxX0J-qEEf4qIQHaD6&pid=Api&rs=1&c=1&qlt=95&w=223&h=117" alt='Card Image' class='card-img-top md-3 rounded-lg' />`
           }
           <h4 class='card-title task__card__title'>${title}</h4>
           <p class='description trim-3-lines text-muted'>${description}</p>
@@ -72,7 +74,7 @@ const htmlTaskContent = ({ id, title, description, type, url }) => `
           </div>
       </div>
       <div class='card-footer'>
-          <button type='button' class='btn btn-outline-primary float-right' data-bs-toggle="modal" data-bs-target="#showTask" onclick='openTask()' id=${id}>Open Task</button>
+          <button type='button' class='btn btn-outline-primary float-right' data-bs-toggle="modal" data-bs-target="#showTask" onclick='openTask.apply(this, arguments)' id=${id}>Open Task</button>
       </div>
     </div>
   </div>
@@ -84,9 +86,12 @@ const htmlModalContent = ({ id, title, description, url }) => {
   return `
   <div id=${id}>
      ${
-      url 
-            ?`<img width='100%' src=${url} alt='Card Image' class='card-img-top md-3 rounded-lg' />`
-            :`<img width='100%' src="https://www.pngkey.com/png/detail/233-2332677_image-500580-placeholder-transparent.png" alt='Card Image' class='card-img-top md-3 rounded-lg' />`
+       //  url &&
+       //  //  `<img width='100%' src=${url} alt='Card Image' class='img-fluid place__holder__image mb-3' />`
+       //  `<img width='100%' src=${url} alt='Card Image' class='img-fluid place__holder__image mb-3' />`
+       url
+         ? `<img width='100%' src=${url} alt='Card Image' class='card-img-top md-3 rounded-lg' />`
+         : `<img width='100%' src="https://tse1.mm.bing.net/th?id=OIP.F00dCf4bXxX0J-qEEf4qIQHaD6&pid=Api&rs=1&c=1&qlt=95&w=223&h=117" alt='Card Image' class='card-img-top md-3 rounded-lg' />`
      }
      <strong class='text-muted text-sm'>Created on: ${date.toDateString()}</strong>
      <h2 class='my-3'>${title}</h2>
@@ -106,21 +111,12 @@ const updateLocalStorage = () => {
 };
 
 // where we convert str > json (i.e., for rendering the cards on the screen)
-// const loadInitialData = () => {
-//   const localStorageCopy = JSON.parse(localStorage.task);
 
-//   if (localStorageCopy) state.taskList = localStorageCopy.tasks;
-
-//   state.taskList.map((cardDate) => {
-//     // taskContents.innerAdjacentHTML("beforeend", htmlTaskContent(cardDate));
-//     taskContents.insertAdjacentHTML("beforeend", htmlTaskContent(cardDate));
-//   });
-// };
 
 const loadInitialData = () => {
   const localStorageCopy = JSON.parse(localStorage.task);
 
-  if (localStorageCopy) state.taskList = localStorageCopy.tasks;
+  if (localStorageCopy) state.taskList = localStorageCopy.task;
 
   state.taskList.map((cardDate) => {
     taskContents.insertAdjacentHTML("beforeend", htmlTaskContent(cardDate));
@@ -184,11 +180,11 @@ const handleSubmit = (event) => {
     type: document.getElementById("tags").value,
     description: document.getElementById("taskDescription").value,
   };
-  if (input.title === "" || input.tags === "" || input.taskDescription === "") {
+  if (input.title === "" || input.type === "" || input.description === "") {
     return alert("Please fill all the necessary fiels :-)");
   }
 
- 
+  // taskContents.innerAdjacentHTML(
   taskContents.insertAdjacentHTML(
     "beforeend",
     htmlTaskContent({ ...input, id })
@@ -199,13 +195,9 @@ const handleSubmit = (event) => {
 };
 
 //open task
-const openTask= (e) => {
-  if(!e)e  = window.event;
+const openTask = (e) => {
+  if (!e) e = window.event;
 
-  const getTask =state.taskList.find(({id}) => id === e.target.id); 
+  const getTask = state.taskList.find(({ id }) => id === e.target.id);
   taskModal.innerHTML = htmlModalContent(getTask);
-}
-
-// edit task
-// save edit
-// search
+};
