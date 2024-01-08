@@ -55,8 +55,8 @@ const htmlTaskContent = ({ id, title, description, type, url }) => `
           <button type='button' class='btn btn-outline-primary mr-1.5' name=${id}>
               <i class='fas fa-pencil-alt name=${id}'></i>
           </button>
-           <button type='button' class='btn btn-outline-danger mr-1.5' name=${id} onclick="deleteTask.apply(this, arguments)">
-              <i class='fas fa-trash-alt name=${id}' ></i>
+           <button type='button' class='btn btn-outline-danger mr-1.5' name=${id} >
+              <i class='fas fa-trash-alt' name=${id} onclick="deleteTask.apply(this, arguments)"></i>
           </button>
       </div>
       <div class='card-body'>
@@ -108,15 +108,15 @@ const updateLocalStorage = () => {
       tasks: state.taskList,
     })
   );
-};
+};  
 
 // where we convert str > json (i.e., for rendering the cards on the screen)
 
 
-const loadInitialData = () => {
+const  loadInitialData = () => {
   const localStorageCopy = JSON.parse(localStorage.task);
 
-  if (localStorageCopy) state.taskList = localStorageCopy.task;
+  if (localStorageCopy) state.taskList = localStorageCopy.tasks;
 
   state.taskList.map((cardDate) => {
     taskContents.insertAdjacentHTML("beforeend", htmlTaskContent(cardDate));
@@ -201,3 +201,24 @@ const openTask = (e) => {
   const getTask = state.taskList.find(({ id }) => id === e.target.id);
   taskModal.innerHTML = htmlModalContent(getTask);
 };
+//delete task
+const deleteTask = (e) => {
+  if (!e) e = window.event;
+
+  const targetId = e.target.getAttribute("name");
+  const type = e.target.tagName; 
+  const removeTask = state.taskList.filter(({id}) => id !== targetId);
+ updateLocalStorage();
+ if(type === "BUTTON"){
+  return e.target.parentNode.parentNode.parentNode.parentNode.removeChild(
+    e.target.parentNode.parentNode.parentNode
+  );
+ }
+ return e.target.parentNode.parentNode.parentNode.parentNode.parentNode.removeChild(
+    e.target.parentNode.parentNode.parentNode.pa
+  );
+};
+
+
+//edit task
+
