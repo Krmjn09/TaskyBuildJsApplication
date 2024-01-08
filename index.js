@@ -199,7 +199,12 @@ const handleSubmit = (event) => {
 };
 
 //open task
-const openTask = (e)
+const openTask= (e) => {
+  if(!e)e  = window.event;
+
+  const getTask =state.taskList.find(({id}) => id === e.target.id); 
+  taskModal.innerHTML = htmlModalContent(getTask);
+}
 
 // edit task
 // save edit
