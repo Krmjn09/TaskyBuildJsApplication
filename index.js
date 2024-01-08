@@ -72,7 +72,7 @@ const htmlTaskContent = ({ id, title, description, type, url }) => `
           </div>
       </div>
       <div class='card-footer'>
-          <button type='button' class='btn btn-outline-primary float-right' data-bs-toggle="modal" data-bs-target="#showTask">Open Task</button>
+          <button type='button' class='btn btn-outline-primary float-right' data-bs-toggle="modal" data-bs-target="#showTask" onclick='openTask()' id=${id}>Open Task</button>
       </div>
     </div>
   </div>
@@ -199,6 +199,8 @@ const handleSubmit = (event) => {
 };
 
 //open task
+const openTask = (e)
+
 // edit task
 // save edit
 // search
