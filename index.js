@@ -55,9 +55,7 @@ const htmlTaskContent = ({ id, title, description, type, url }) => `
           <button type='button' class='btn btn-outline-primary mr-2' name=${id} onclick="editTask.apply(this, arguments)">
               <i class='fas fa-pencil-alt name=${id}'></i>
           </button>
-           <button type='button' class='btn btn-outline-danger mr-2' name=${id} onclick="deleteTask.apply(this, arguments)">
-              <i class='fas fa-trash-alt name=${id} onclick="deleteTask.apply(this, arguments)' ></i>
-          </button>
+          <button type="button" class="btn btn-outline-danger delete-button" onclick="deleteTask(event)" name="${id}">Delete</button>          </button>
       </div>
       <div class='card-body'>
           ${
@@ -216,25 +214,20 @@ const deleteTask = (e) => {
   if (!e) e = window.event;
 
   const targetId = e.target.getAttribute("name");
-  // console.log(targetId);
   const type = e.target.tagName;
-  // console.log(type);
+
+  // Remove the task from the state.taskList array
   state.taskList = state.taskList.filter(({ id }) => id !== targetId);
-  console.log(state.tasklist);
+
+  // Update the local storage
   updateLocalStorage();
 
-  if (type === "BUTTON") {
-    // console.log(e.target.parentNode.parentNode.parentNode.parentNode);
-    return e.target.parentNode.parentNode.parentNode.parentNode.removeChild(
-      e.target.parentNode.parentNode.parentNode
-    );
-  } else if (type === "I") {
-    return e.target.parentNode.parentNode.parentNode.parentNode.removeChild(
-      e.target.parentNode.parentNode.parentNode
-    );
+  // Remove the card from the DOM
+  if (type === "BUTTON" || type === "I") {
+    const cardToRemove = e.target.closest(".task__card");
+    cardToRemove.parentNode.removeChild(cardToRemove);
   }
 };
-
 // edit task
 const editTask = (e) => {
   if (!e) e = window.event;
