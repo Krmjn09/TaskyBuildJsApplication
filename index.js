@@ -56,7 +56,7 @@ const htmlTaskContent = ({ id, title, description, type, url }) => `
               <i class='fas fa-pencil-alt name=${id}'></i>
           </button>
            <button type='button' class='btn btn-outline-danger mr-2' name=${id} onclick="deleteTask.apply(this, arguments)">
-              <i class='fas fa-trash-alt name=${id}' ></i>
+              <i class='fas fa-trash-alt name=${id} onclick="deleteTask.apply(this, arguments)' ></i>
           </button>
       </div>
       <div class='card-body'>
@@ -220,7 +220,7 @@ const deleteTask = (e) => {
   const type = e.target.tagName;
   // console.log(type);
   state.taskList = state.taskList.filter(({ id }) => id !== targetId);
-  // console.log(removeTask);
+  console.log(state.tasklist);
   updateLocalStorage();
 
   if (type === "BUTTON") {
@@ -229,8 +229,8 @@ const deleteTask = (e) => {
       e.target.parentNode.parentNode.parentNode
     );
   } else if (type === "I") {
-    return e.target.parentNode.parentNode.parentNode.parentNode.parentNode.removeChild(
-      e.target.parentNode.parentNode.parentNode.parentNode
+    return e.target.parentNode.parentNode.parentNode.parentNode.removeChild(
+      e.target.parentNode.parentNode.parentNode
     );
   }
 };
